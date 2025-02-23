@@ -1,91 +1,103 @@
-# AI/Machine Learning Intern Challenge: Simple Content-Based Recommendation
+# BERT-Enhanced Movie Recommender
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+A sophisticated movie recommendation system that leverages BERT embeddings to provide intelligent movie suggestions based on natural language queries.
+While the challenge suggested using TF-IDF, this implementation uses BERT for superior semantic understanding and more accurate recommendations.
 
----
+## Why BERT Instead of TF-IDF?
+- Better understanding of context and meaning in user queries
+- Captures semantic relationships between words
+- More nuanced understanding of movie descriptions
+- Superior handling of word order and context
+- Better match between user intent and recommendations
 
-## Overview
+## Features
+- BERT-based text embeddings for deep semantic understanding and the execution time is not significantly high compared to TF-IDF
+- Intelligent genre classification
+- Metadata-enhanced recommendation scoring
+- Rating normalization
+- Advanced text preprocessing
+- Multi-factor scoring system combining:
+  - BERT similarity (60%)
+  - Metadata matching (20%)
+  - Genre relevance (30%)
+  - User ratings (10%)
 
-Build a **content-based recommendation system** that, given a **short text description** of a user’s preferences, suggests **similar items** (e.g., movies) from a small dataset. This challenge should take about **3 hours**, so keep your solution **simple** yet **functional**.
+## Dataset Requirements
+The system expects a CSV file (`data.csv`) with the following columns:
+- Title: Movie title
+- Year: Release year
+- Director: Movie director
+- Cast: Pipe-separated list of cast members
+- Rating: Numerical rating
+- Summary: Movie plot summary
+- Runtime: Movie duration in minutes
 
-### Example Use Case
+Place `data.csv` in the root directory of the project.
 
-- The user inputs:  
-  *"I love thrilling action movies set in space, with a comedic twist."*  
-- Your system processes this description (query) and compares it to a dataset of items (e.g., movies with their plot summaries or keywords).  
-- You then return the **top 3–5 “closest” matches** to the user.
+## Setup Instructions
 
----
+### Prerequisites
+- Python 3.8 or higher
+- 4GB+ RAM recommended
+- CUDA-capable GPU recommended but not required (google colab T4 gpu is sufficient)
 
-## Requirements
+### Installation
 
-1. **Dataset**  
-   - Use a **small** public dataset of items (e.g., a list of movies with plot summaries, or other textual descriptions).  
-   - Make sure the dataset is easy to handle (maybe 100–500 rows) so the solution remains quick to implement and run.  
-   - Include the dataset in your forked repository *or* provide instructions/link on how to download it.  
+1. Create and activate a virtual environment: (Optional)
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-2. **Approach**  
-   - **Content-Based**: At a minimum, use text similarity to recommend items.  
-     - For instance, you can transform both the user’s text input and each item’s description into TF-IDF vectors and compute **cosine similarity**.  
-   - Return the **top N** similar items (e.g., top 5).
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-3. **Code Organization**  
-   - You may use a **Jupyter Notebook** or **Python scripts**.  
-   - Keep it **readable** and **modular** (e.g., one section for loading data, one for building vectors, one for computing similarity, etc.).  
-   - Briefly comment or docstring your key functions/sections.
+3. Wait for BERT model download (happens automatically on first run)
 
-4. **Output**  
-   - When given an input description (e.g., `"I like action movies set in space"`), your system should print or return a list of recommended items (e.g., 3–5 titles).  
-   - Include the similarity score or rank if you’d like.
+## Usage
 
-5. **Summary & Instructions**  
-   - A short `README.md` that includes:
-     - **Dataset**: Where it’s from, any steps to load it.  
-     - **Setup**: Python version, virtual environment instructions, and how to install dependencies (`pip install -r requirements.txt`).  
-     - **Running**: How to run your code (e.g., `python recommend.py "Some user description"` or open your notebook in Jupyter).  
-     - **Results**: A brief example of your system’s output for a sample query.
+1. Run the main script:
+```bash
+python movie_recommender.py
+```
 
----
+2. Enter your movie preferences when prompted. Example queries:
+```
+"Show me exciting action movies with lots of fighting"
+"I want a scary horror movie with supernatural elements"
+"Looking for an emotional drama about family relationships"
+```
 
-## Deliverables
+## Example Output
 
-1. **Fork the Public Repository**  
-   - **Fork** this repo into your own GitHub account.
+Query: "I love thrilling action movies set in space, with a comedic twist"
 
-2. **Implement Your Solution**  
-   - Load and preprocess your dataset (e.g., read CSV, handle text columns).  
-   - Convert text data to vectors (e.g., TF-IDF).  
-   - Implement a function to compute similarity between the user’s query and each item’s description.  
-   - Return the top matches.
-   - Salary expectation per month (Mandatory)
+```
+🎯 Top Recommendations:
+------------------------------------------------------------
+1. Guardians of the Galaxy (2014) - ⭐ 8.0
+   🎬 Director: James Gunn
+   🎭 Cast: Chris Pratt, Vin Diesel, Bradley Cooper
+   🎪 Genres: action, comedy, scifi
+   ⏱️  Runtime: 122 minutes
+   📊 Match Score: 0.892
+   📝 Summary: A group of intergalactic criminals must pull together...
+```
 
-3. **Short Video Demo**  
-   - In a `.md` file (e.g., `demo.md`) within your fork, paste a link to a **brief screen recording** (video link).  
-   - Demonstrate:
-     - How you run the recommendation code.  
-     - A sample query and the results.
+## System Architecture
+- `BertEncoder`: Handles text embedding using BERT
+- `TextPreprocessor`: Cleans and normalizes text data
+- `GenreClassifier`: Detects movie genres using comprehensive patterns
+- `MovieRecommender`: Main class that combines all components
 
-4. **Deadline**  
-   - Submit your fork by **Sunday, Feb 23th 11:59 pm PST**.
+## Performance Note
+First run will be slower due to BERT model download and initialization. Subsequent runs will be faster.
+I recommend to use google colab which has free T4 GPU, and it takes only 1 min to execute in google colab
 
-> **Note**: This should be doable within ~3 hours. Keep it **straightforward**—you do **not** need advanced neural networks or complex pipelines. A simple TF-IDF + cosine similarity approach is sufficient.
+## Salary Expectation
+$22 per hour
 
----
-
-## Evaluation Criteria
-
-1. **Functionality**  
-   - Does your code run without errors?  
-   - When given an input query, does it successfully output relevant items?
-
-2. **Code Quality**  
-   - Clear, commented code (where it counts).  
-   - Logical steps (load data → transform → recommend).
-
-3. **Clarity**  
-   - Is your `README.md` straightforward about setup, how to run, and what to expect?
-
-4. **ML/Recommendation Understanding**  
-   - Basic implementation of a content-based recommendation approach (vectorization, similarity measure).
-
-**We look forward to seeing your solution!** Good luck!
+## Author
+Shrihan Thokala
