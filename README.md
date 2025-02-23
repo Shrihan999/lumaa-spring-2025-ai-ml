@@ -23,6 +23,8 @@ While the challenge suggested using TF-IDF, this implementation uses BERT for su
   - User ratings (10%)
 
 ## Dataset Requirements
+The dataset is taken from kaggle
+link:https://www.kaggle.com/datasets/kayscrapes/movie-dataset
 The system expects a CSV file (`data.csv`) with the following columns:
 - Title: Movie title
 - Year: Release year
